@@ -1,0 +1,168 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "SECONDHAND-API-MANAGEMENT",
+        "description": "Final Project FSW Binar Academy",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:2000",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "API for authentication"
+        },
+        {
+            "name": "Users",
+            "description": "API for managing Users data"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Register Endpoint",
+                "parameters": [
+                    {
+                        "name": "register",
+                        "in": "body",
+                        "description": "member to register.",
+                        "schema": {
+                            "$ref": "#/definitions/Register"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success registering member."
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Login Endpoint",
+                "parameters": [
+                    {
+                        "name": "Login",
+                        "in": "body",
+                        "description": "Login to access resource.",
+                        "schema": {
+                            "$ref": "#/definitions/Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success Login."
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": ["Auth"],
+                "summary": "Get Users in system with token",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success get Users.",
+                        "schema": {
+                            "$ref": "#/definitions/Register"
+                        }
+                    }
+                }
+            },
+
+            "/api/users/{id}": {
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of User that we want to get the data",
+                    "type": "string"
+                }],
+                "get": {
+                    "tags": ["Users"],
+                    "summary": "Get Users in system with id user",
+                    "parameters": [{
+                        "name": "get User",
+                        "in": "body",
+                        "description": "Get data user",
+                        "schema": {
+                            "$ref": "#/definitions/Register"
+                        }
+                    }],
+                    "responses": {
+                        "200": {
+                            "description": "Success Get Data User"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Register": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "text"
+                },
+                "numberPhone": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "string"
+                }
+            }
+        },
+        "Login": {
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**"
+        }
+    }
+}
