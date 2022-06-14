@@ -15,6 +15,7 @@ app.use(cors());
 // Import Controllers
 const authController = require("./controllers/authController");
 const userController = require("./controllers/userController");
+const productController = require("./controllers/productController");
 
 // import middlewares
 const middlewares = require("./middlewares/auth");
@@ -25,9 +26,17 @@ app.post("/auth/register", authController.register);
 app.post("/auth/login", authController.login);
 app.get("/auth/me", middlewares.authenticate, authController.currentUser);
 
-// Define Routes Account
-app.get("/api/users/:id", userController.getById);
-app.put("/api/users/update/:id", middlewares.authenticate, upload.single("picture"), userController.updateById);
+// Define Routes Users
+app.get("/users/:id", userController.getById);
+app.put("/users/update/:id", middlewares.authenticate, upload.single("picture"), userController.updateById);
+app.get("/users/:id/products", userController.getProductBySellerId);
+
+// Define Routes Products
+app.get("/products", productController.getAll);
+app.post("/products/create", middlewares.authenticate, upload.single("picture"), productController.create);
+app.get("/products/:id", middlewares.authenticate, productController.getProductById);
+app.put("/products/:id", middlewares.authenticate, upload.single("picture"), productController.updateProductById);
+app.delete("/products/:id", middlewares.authenticate, productController.deleteProductById);
 
 // Public File Access
 app.use("/public/files", express.static(path.join(__dirname, "/storages")));

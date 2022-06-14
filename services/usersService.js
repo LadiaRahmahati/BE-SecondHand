@@ -1,9 +1,9 @@
-const userRepository = require("../repositories/userRepository");
+const usersRepository = require("../repositories/usersRepository");
 
-class userService {
+class usersService {
     static async getById({ id }) {
         try {
-            const getById = await userRepository.getById({
+            const getById = await usersRepository.getById({
                 id,
             });
             return {
@@ -28,7 +28,7 @@ class userService {
 
     static async updateById({ id, name, city, address, phoneNumber, picture }) {
         try {
-            const updatedPost = await userRepository.updateById({
+            const updatedProducts = await usersRepository.updateById({
                 id,
                 name,
                 city,
@@ -42,7 +42,7 @@ class userService {
                 status_code: 200,
                 message: "users updated successfully",
                 data: {
-                    updated_post: updatedPost,
+                    updated_products: updatedProducts,
                 },
             };
         }
@@ -57,6 +57,32 @@ class userService {
             };
         }
     }
+
+    static async getProductBySellerId({ id }) {
+        try {
+            const getProducts = await usersRepository.getProductBySellerId({
+                id,
+            });
+
+            return {
+                status: true,
+                status_code: 200,
+                message: "Success",
+                data: {
+                    products: getProducts,
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    data: null,
+                },
+            };
+        }
+    }
 }
 
-module.exports = userService
+module.exports = usersService

@@ -1,4 +1,4 @@
-const { users } = require("../models");
+const { users, products } = require("../models");
 
 class UsersRepository {
     static async getByEmail({ email }) {
@@ -52,6 +52,19 @@ class UsersRepository {
 
         return updateById;
     }
+
+    static async getProductBySellerId({
+        id
+    }) {
+        const getProducts = await products.findAll({
+            where: {
+                user_id: id
+            }
+        });
+
+        return getProducts;
+    }
 }
+
 
 module.exports = UsersRepository;
