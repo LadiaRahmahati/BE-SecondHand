@@ -85,4 +85,16 @@ const deleteProductById  = async (req, res) => {
     });
 };
 
-module.exports = { create, getAll, getProductById, updateProductById, deleteProductById };
+const filterByCategory = async (req, res) => {
+    const { category } = req.query;
+
+    const { status, code_status, message, data } = await productsService.filterByCategory({category});
+
+    res.status(code_status).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+}
+
+module.exports = { create, getAll, getProductById, updateProductById, deleteProductById, filterByCategory };

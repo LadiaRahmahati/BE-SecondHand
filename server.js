@@ -37,6 +37,7 @@ app.post("/products/create", middlewares.authenticate, upload.single("picture"),
 app.get("/products/:id", middlewares.authenticate, productController.getProductById);
 app.put("/products/:id", middlewares.authenticate, upload.single("picture"), productController.updateProductById);
 app.delete("/products/:id", middlewares.authenticate, productController.deleteProductById);
+app.get("/productss/filter/category?", productController.filterByCategory );
 
 // Public File Access
 app.use("/public/files", express.static(path.join(__dirname, "/storages")));

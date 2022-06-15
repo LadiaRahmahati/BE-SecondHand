@@ -224,6 +224,32 @@ class ProductsService {
             };
         }
     }
+
+    static async filterByCategory({ category }) {
+        try {
+            const getAll = await productsRepository.getAll({
+                category
+            });
+
+            return {
+                status: true,
+                code_status: 200,
+                message: "data produk berhasil ditampilkan",
+                data: {
+                    data: getAll,
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                code_status: 500,
+                message: err.message,
+                data: {
+                    data : null,
+                },
+            };
+        }
+    }
 }
 
 module.exports = ProductsService;
