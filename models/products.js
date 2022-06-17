@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     category: DataTypes.STRING,
     description: DataTypes.TEXT,
-    picture: DataTypes.STRING
+    picture: DataTypes.ARRAY(DataTypes.STRING),
+    isPublish: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'products',

@@ -33,11 +33,13 @@ app.get("/users/:id/products", userController.getProductBySellerId);
 
 // Define Routes Products
 app.get("/products", productController.getAll);
-app.post("/products/create", middlewares.authenticate, upload.single("picture"), productController.create);
+app.post("/products/create", middlewares.authenticate, upload.fields([{ name: "picture" }])
+    , productController.create);
 app.get("/products/:id", middlewares.authenticate, productController.getProductById);
-app.put("/products/:id", middlewares.authenticate, upload.single("picture"), productController.updateProductById);
+app.put("/products/:id", middlewares.authenticate, upload.fields([{name: "picture"}])
+, productController.updateProductById);
 app.delete("/products/:id", middlewares.authenticate, productController.deleteProductById);
-app.get("/productss/filter/category?", productController.filterByCategory );
+app.get("/productss/filter/category?", productController.filterByCategory);
 
 // Public File Access
 app.use("/public/files", express.static(path.join(__dirname, "/storages")));

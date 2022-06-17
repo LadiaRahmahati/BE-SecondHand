@@ -1,7 +1,7 @@
 const productsRepository = require("../repositories/productsRepository");
 
 class ProductsService {
-    static async create({ user_id, name, price, category, description, picture }) {
+    static async create({ user_id, name, price, category, description, picture, isPublish }) {
         try {
             if (!name) {
                 return {
@@ -9,7 +9,7 @@ class ProductsService {
                     status_code: 400,
                     message: "Nama produk wajib diisi",
                     data: {
-                        registered_user: null,
+                        data: null,
                     },
                 };
             }
@@ -20,7 +20,7 @@ class ProductsService {
                     status_code: 400,
                     message: "Harga produk wajib diisi",
                     data: {
-                        registered_user: null,
+                        data: null,
                     },
                 };
             }
@@ -31,7 +31,7 @@ class ProductsService {
                     status_code: 400,
                     message: "Kategori produk wajib diisi",
                     data: {
-                        registered_user: null,
+                        data: null,
                     },
                 };
             }
@@ -42,7 +42,7 @@ class ProductsService {
                     status_code: 400,
                     message: "Deskripsi produk wajib diisi",
                     data: {
-                        registered_user: null,
+                        data: null,
                     },
                 };
             }
@@ -52,6 +52,15 @@ class ProductsService {
                     status: false,
                     status_code: 400,
                     message: "Gambar produk wajib diisi",
+                    data: {
+                        data: null,
+                    },
+                };
+            }else if (picture.length > 4) {
+                return {
+                    status: false,
+                    status_code: 400,
+                    message: "Maksimal Gambar Per Postingan adalah 4 Gambar",
                     data: {
                         registered_user: null,
                     },
@@ -66,6 +75,7 @@ class ProductsService {
                 category,
                 description,
                 picture,
+                isPublish
             });
 
             return {
@@ -82,7 +92,7 @@ class ProductsService {
                 status_code: 500,
                 message: err.message,
                 data: {
-                    registered_user: null,
+                    data: null,
                 },
             };
         }
@@ -132,12 +142,12 @@ class ProductsService {
                 status_code: 500,
                 message: err.message,
                 data: {
-                    registered_user: null,
+                    data: null,
                 },
             };
         }
     }
-    static async updateProductById({ id, user_id, name, price, category, description, picture }) {
+    static async updateProductById({ id, user_id, name, price, category, description, picture, isPublish }) {
         try {
             const getProduct = await productsRepository.getProductById({
                 id
@@ -150,7 +160,8 @@ class ProductsService {
                     price,
                     category,
                     description,
-                    picture
+                    picture,
+                    isPublish
                 });
 
                 return {
@@ -178,7 +189,7 @@ class ProductsService {
                 status_code: 500,
                 message: err.message,
                 data: {
-                    registered_user: null,
+                    data: null,
                 },
             };
         }
@@ -209,7 +220,7 @@ class ProductsService {
                     status_code: 401,
                     message: "Resource Unauthorized",
                     data: {
-                        deleted_post: null,
+                        data: null,
                     },
                 };
             }
@@ -219,7 +230,7 @@ class ProductsService {
                 status_code: 500,
                 message: err.message,
                 data: {
-                    registered_user: null,
+                    data: null,
                 },
             };
         }

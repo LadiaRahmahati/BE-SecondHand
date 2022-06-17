@@ -24,7 +24,10 @@ module.exports = {
         type: Sequelize.TEXT
       },
       picture: {
-        type: Sequelize.STRING
+        type: Sequelize.ARRAY(Sequelize.STRING)
+      },
+      isPublish: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

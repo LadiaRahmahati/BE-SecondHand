@@ -1,17 +1,32 @@
 const { products } = require("../models");
 
 class ProductsRepository {
-    static async create({ user_id, name, price, category, description, picture }) {
+    static async create({ user_id, name, price, category, description, picture, isPublish }) {
         const createdProduct = products.create({
             user_id,
             name,
             price,
             category,
             description,
-            picture
+            picture,
+            isPublish
         });
 
         return createdProduct;
+    }
+
+    static async createFalse ({ user_id, name, price, category, description, picture, isPublish }) {
+        const createdProductFalse = products.create({
+            user_id,
+            name,
+            price,
+            category,
+            description,
+            picture,
+            isPublish
+        });
+
+        return createdProductFalse;
     }
 
     static async getAll() {
@@ -31,13 +46,14 @@ class ProductsRepository {
         return getProduct;
     }
 
-    static async updateProductById({ id, name, price, category, description, picture }) {
+    static async updateProductById({ id, name, price, category, description, picture, isPublish }) {
         const updateProductById = await products.update({
             name,
             price,
             category,
             description,
-            picture
+            picture,
+            isPublish
         }, {
             where: {
                 id
