@@ -153,6 +153,70 @@ class ProductsService {
                 id
             });
 
+            if (!name) {
+                return {
+                    status: false,
+                    status_code: 400,
+                    message: "Nama produk wajib diisi",
+                    data: {
+                        data: null,
+                    },
+                };
+            }
+
+            if (!price) {
+                return {
+                    status: false,
+                    status_code: 400,
+                    message: "Harga produk wajib diisi",
+                    data: {
+                        data: null,
+                    },
+                };
+            }
+
+            if (!category) {
+                return {
+                    status: false,
+                    status_code: 400,
+                    message: "Kategori produk wajib diisi",
+                    data: {
+                        data: null,
+                    },
+                };
+            }
+
+            if (!description) {
+                return {
+                    status: false,
+                    status_code: 400,
+                    message: "Deskripsi produk wajib diisi",
+                    data: {
+                        data: null,
+                    },
+                };
+            }
+
+            if (!picture) {
+                return {
+                    status: false,
+                    status_code: 400,
+                    message: "Gambar produk wajib diisi",
+                    data: {
+                        data: null,
+                    },
+                };
+            }else if (picture.length > 4) {
+                return {
+                    status: false,
+                    status_code: 400,
+                    message: "Maksimal Gambar Per Postingan adalah 4 Gambar",
+                    data: {
+                        registered_user: null,
+                    },
+                };
+            }
+
             if (getProduct.user_id == user_id) {
                 const updatedProduct = await productsRepository.updateProductById({
                     id,
