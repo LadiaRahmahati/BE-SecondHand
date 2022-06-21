@@ -29,7 +29,7 @@ app.get("/auth/me", middlewares.authenticate, authController.currentUser);
 // Define Routes Users
 app.get("/users/:id", userController.getById);
 app.put("/users/update/:id", middlewares.authenticate, upload.single("picture"), userController.updateById);
-app.get("/users/:id/products", userController.getProductBySellerId);
+app.get("/users/:id/products?", userController.getProductBySellerId);
 
 // Define Routes Products
 app.get("/products", productController.getAll);
