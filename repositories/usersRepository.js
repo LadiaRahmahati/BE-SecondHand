@@ -53,14 +53,24 @@ class UsersRepository {
         return updateById;
     }
 
-    static async getProductBySellerId({
-        id
-    }) {
-        const getProducts = await products.findAll({
-            where: {
-                user_id: id
-            }
-        });
+    static async getProductBySellerId({ id, isPublish, sold }) {
+        const query = {
+            where: {}
+        }
+
+        if (id) {
+            query.where = { ...query.where, user_id: id }
+        }
+
+        if (sold) {
+            query.where = { ...query.where, sold }
+        }
+
+        if (isPublish) {
+            query.where = { ...query.where, isPublish }
+        }
+
+        const getProducts = await products.findAll(query);
 
         return getProducts;
     }

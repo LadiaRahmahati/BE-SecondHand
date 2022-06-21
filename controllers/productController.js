@@ -1,7 +1,7 @@
 const productsService = require("../services/productsService");
 
 const create = async (req, res, next) => {
-    const { name, price, category, description, isPublish } = req.body;
+    const { name, price, category, description, isPublish, sold } = req.body;
 
     const user_id = req.user.id;
 
@@ -12,7 +12,8 @@ const create = async (req, res, next) => {
         category,
         description,
         picture: req.uploaded_picture,
-        isPublish
+        isPublish,
+        sold
     });
 
     res.status(status_code).send({
@@ -71,7 +72,7 @@ const updateProductById = async (req, res, next) => {
     });
 };
 
-const deleteProductById  = async (req, res) => {
+const deleteProductById = async (req, res) => {
     const { id } = req.params;
 
     const user_id = req.user.id;
@@ -88,10 +89,10 @@ const deleteProductById  = async (req, res) => {
     });
 };
 
-const filterByCategory = async (req, res) => {
-    const { category } = req.query;
+const filterProducts = async (req, res) => {
+    const { isPublish, sold, category } = req.query;
 
-    const { status, code_status, message, data } = await productsService.filterByCategory({category});
+    const { status, code_status, message, data } = await productsService.filterProducts({ isPublish, sold, category });
 
     res.status(code_status).send({
         status: status,
@@ -100,10 +101,11 @@ const filterByCategory = async (req, res) => {
     });
 }
 
-module.exports = { 
-    create,  
-    getAll, 
-    getProductById, 
-    updateProductById, 
-    deleteProductById, 
-    filterByCategory };
+module.exports = {
+    create,
+    getAll,
+    getProductById,
+    updateProductById,
+    deleteProductById,
+    filterProducts,
+};

@@ -36,10 +36,13 @@ const updateById = async (req, res, next) => {
 
 const getProductBySellerId = async (req, res, next) => {
     const { id } = req.params;
+    const { isPublish, sold } = req.query;
 
     const { status, status_code, message, data } =
     await usersService.getProductBySellerId({
         id,
+        isPublish,
+        sold,
     });
 
     res.status(status_code).send({

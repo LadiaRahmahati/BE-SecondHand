@@ -29,6 +29,9 @@ module.exports = {
       isPublish: {
         type: Sequelize.BOOLEAN
       },
+      sold: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

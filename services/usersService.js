@@ -58,10 +58,12 @@ class usersService {
         }
     }
 
-    static async getProductBySellerId({ id }) {
+    static async getProductBySellerId({ id, isPublish, sold }) {
         try {
             const getProducts = await usersRepository.getProductBySellerId({
                 id,
+                isPublish,
+                sold
             });
 
             return {

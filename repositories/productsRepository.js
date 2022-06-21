@@ -1,7 +1,7 @@
 const { products } = require("../models");
 
 class ProductsRepository {
-    static async create({ user_id, name, price, category, description, picture, isPublish }) {
+    static async create({ user_id, name, price, category, description, picture, isPublish, sold }) {
         const createdProduct = products.create({
             user_id,
             name,
@@ -9,24 +9,11 @@ class ProductsRepository {
             category,
             description,
             picture,
-            isPublish
+            isPublish,
+            sold
         });
 
         return createdProduct;
-    }
-
-    static async createFalse ({ user_id, name, price, category, description, picture, isPublish }) {
-        const createdProductFalse = products.create({
-            user_id,
-            name,
-            price,
-            category,
-            description,
-            picture,
-            isPublish
-        });
-
-        return createdProductFalse;
     }
 
     static async getAll() {
