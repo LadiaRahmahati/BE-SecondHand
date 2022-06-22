@@ -16,6 +16,7 @@ app.use(cors());
 const authController = require("./controllers/authController");
 const userController = require("./controllers/userController");
 const productController = require("./controllers/productController");
+const transactionsController = require("./controllers/transactionController")
 
 // import middlewares
 const middlewares = require("./middlewares/auth");
@@ -40,6 +41,12 @@ app.put("/products/:id", middlewares.authenticate, upload.fields([{name: "pictur
 , productController.updateProductById);
 app.delete("/products/:id", middlewares.authenticate, productController.deleteProductById);
 app.get("/product/filter?", productController.filterProducts);
+
+//Whistlist
+app.get("/wishlist/user", middlewares.authenticate, transactionsController.getWishlistByUserId);
+app.post("/wishlist", middlewares.authenticate, transactionsController.create);
+
+
 // Public File Access
 app.use("/public/files", express.static(path.join(__dirname, "/storages")));
 
