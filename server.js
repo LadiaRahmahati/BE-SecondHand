@@ -50,7 +50,7 @@ app.post("/wishlist", middlewares.authenticate, transactionsController.create);
 
 
 // Public File Access
-app.use("/files", express.static(path.join(__dirname, "/storages")));
+app.use("public/files", express.static(path.join(__dirname, "/storages")));
 
 // API Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
