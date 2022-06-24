@@ -1,5 +1,15 @@
 const usersService = require("../services/usersService");
 
+const getAllUsers = async (req, res) => {
+    const { status, status_code, message, data } = await usersService.getAllUsers();
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
 const getById = async (req, res) => {
     const { id } = req.params;
 
@@ -52,4 +62,4 @@ const getProductBySellerId = async (req, res, next) => {
     });
 };
 
-module.exports = { getById, updateById, getProductBySellerId }
+module.exports = { getAllUsers, getById, updateById, getProductBySellerId }

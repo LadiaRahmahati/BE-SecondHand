@@ -28,27 +28,29 @@ app.post("/auth/login", authController.login);
 app.get("/auth/me", middlewares.authenticate, authController.currentUser);
 
 // Define Routes Users
+app.get("/users", userController.getAllUsers);
 app.get("/users/:id", userController.getById);
 app.put("/users/update/:id", middlewares.authenticate, upload.single("picture"), userController.updateById);
-app.get("/users/:id/products?", userController.getProductBySellerId);
+
 
 // Define Routes Products
 app.get("/products", productController.getAll);
 app.post("/products/create", middlewares.authenticate, upload.fields([{ name: "picture" }])
     , productController.create);
 app.get("/products/:id", middlewares.authenticate, productController.getProductById);
+app.get("/users/:id/products?", userController.getProductBySellerId);
 app.put("/products/:id", middlewares.authenticate, upload.fields([{name: "picture"}])
 , productController.updateProductById);
 app.delete("/products/:id", middlewares.authenticate, productController.deleteProductById);
 app.get("/product/filter?", productController.filterProducts);
 
-//Whistlist
+//Wishlist
 app.get("/wishlist/user", middlewares.authenticate, transactionsController.getWishlistByUserId);
 app.post("/wishlist", middlewares.authenticate, transactionsController.create);
 
 
 // Public File Access
-app.use("/public/files", express.static(path.join(__dirname, "/storages")));
+app.use("/files", express.static(path.join(__dirname, "/storages")));
 
 // API Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

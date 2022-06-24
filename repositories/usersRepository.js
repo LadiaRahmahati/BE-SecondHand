@@ -1,6 +1,12 @@
 const { users, products } = require("../models");
 
 class UsersRepository {
+    static async getAllUsers() {
+        const getUser = await users.findAll();
+
+        return getUser;
+    }
+
     static async getByEmail({ email }) {
         const getUser = await users.findOne({
             where: {

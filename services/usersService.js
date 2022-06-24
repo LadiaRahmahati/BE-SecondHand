@@ -1,6 +1,31 @@
 const usersRepository = require("../repositories/usersRepository");
 
 class usersService {
+
+    static async getAllUsers() {
+        try {
+            const getAllUsers = await usersRepository.getAllUsers();
+            return {
+                status: true,
+                status_code: 200,
+                message: "success get data",
+                data: {
+                    getdata: getAllUsers,
+                },
+            };
+        }catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    data: null,
+                },
+            };
+        }
+    }
+
+
     static async getById({ id }) {
         try {
             const getById = await usersRepository.getById({
