@@ -53,7 +53,7 @@ class usersService {
 
     static async updateById({ id, name, city, address, phoneNumber, picture }) {
         try {
-            const updatedProducts = await usersRepository.updateById({
+            const updatedUsers = await usersRepository.updateById({
                 id,
                 name,
                 city,
@@ -67,7 +67,7 @@ class usersService {
                 status_code: 200,
                 message: "users updated successfully",
                 data: {
-                    updated_products: updatedProducts,
+                    updated_user: updatedUsers,
                 },
             };
         }

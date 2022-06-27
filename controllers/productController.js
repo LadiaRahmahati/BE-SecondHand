@@ -90,9 +90,9 @@ const deleteProductById = async (req, res) => {
 };
 
 const filterProducts = async (req, res) => {
-    const { isPublish, sold, category } = req.query;
+    const { name, isPublish, sold, category } = req.query;
 
-    const { status, code_status, message, data } = await productsService.filterProducts({ isPublish, sold, category });
+    const { status, code_status, message, data } = await productsService.filterProducts({ name, isPublish, sold, category });
 
     res.status(code_status).send({
         status: status,

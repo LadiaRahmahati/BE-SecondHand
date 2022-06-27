@@ -301,9 +301,10 @@ class ProductsService {
         }
     }
 
-    static async filterProducts({ isPublish, sold, category }) {
+    static async filterProducts({ name, isPublish, sold, category }) {
         try {
-            const getAll = await productsRepository.getAll({
+            const getAllProduct = await productsRepository.getAllProduct({
+                name,
                 isPublish, 
                 sold, 
                 category
@@ -314,7 +315,7 @@ class ProductsService {
                 code_status: 200,
                 message: "data produk berhasil ditampilkan",
                 data: {
-                    data: getAll,
+                    data: getAllProduct,
                 },
             };
         } catch (err) {

@@ -7,6 +7,7 @@ const swaggerDocument = require("./swagger.json");
 const cors = require("cors");
 const path = require("path");
 const upload = require("./utils/fileUpload");
+const uploadSingle = require("./utils/fileUploadSingle");
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,7 +31,7 @@ app.get("/auth/me", middlewares.authenticate, authController.currentUser);
 // Define Routes Users
 app.get("/users", userController.getAllUsers);
 app.get("/users/:id", userController.getById);
-app.put("/users/update/:id", middlewares.authenticate, upload.single("picture"), userController.updateById);
+app.put("/users/update/:id", middlewares.authenticate, uploadSingle.single("picture"), userController.updateById);
 
 
 // Define Routes Products

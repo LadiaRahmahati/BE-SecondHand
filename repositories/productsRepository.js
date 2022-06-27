@@ -59,8 +59,51 @@ class ProductsRepository {
 
         return getProduct;
     }
+    static async getAllProduct({
+        name,
+        isPublish,
+        sold,
+        category
+    }) {
+
+        const query = {
+            where: {},
+            like: {}
+        }
+
+        if (name) {
+            const searchByName = await product.findAll({
+                where: {
+                    [Op.or]: [
+                        { name: { [Op.like]: '%' + name + '%' } },
+                    ]
+                },
+                limit: 10,
+            });
+
+            return searchByName;
+        }
+
+        if (sold) {
+            query.where = { ...query.where, sold }
+        }
+
+        if (category) {
+            query.where = { ...query.where, category }
+        }
+
+        if (isPublish) {
+            query.where = { ...query.where, isPublish }
+        }
+
+        const getAllProduct = await product.findAll(query);
+
+        return getAllProduct;
+    }
 
 }
+
+
 
 
 module.exports = ProductsRepository;
