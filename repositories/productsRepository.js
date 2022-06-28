@@ -72,7 +72,7 @@ class ProductsRepository {
         }
 
         if (name) {
-            const searchByName = await product.findAll({
+            const searchByName = await products.findAll({
                 where: {
                     [Op.or]: [
                         { name: { [Op.like]: '%' + name + '%' } },
@@ -96,7 +96,7 @@ class ProductsRepository {
             query.where = { ...query.where, isPublish }
         }
 
-        const getAllProduct = await product.findAll(query);
+        const getAllProduct = await products.findAll(query);
 
         return getAllProduct;
     }
