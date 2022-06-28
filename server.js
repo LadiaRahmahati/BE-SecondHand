@@ -43,7 +43,7 @@ app.get("/users/:id/products?", userController.getProductBySellerId);
 app.put("/products/:id", middlewares.authenticate, upload.fields([{name: "picture"}])
 , productController.updateProductById);
 app.delete("/products/:id", middlewares.authenticate, productController.deleteProductById);
-app.get("/product/filter?", productController.filterProducts);
+app.get("/productss/filter?", productController.filterProducts);
 
 //Wishlist
 app.get("/wishlist/user", middlewares.authenticate, transactionsController.getWishlistByUserId);
