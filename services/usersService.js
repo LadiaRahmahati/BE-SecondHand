@@ -52,7 +52,11 @@ class usersService {
     }
 
     static async updateById({ id, name, city, address, phoneNumber, picture }) {
-        try {
+        const getUsersById = await usersRepository.getById({
+            id
+        })
+
+        if (getUsersById.id == id) {
             const updatedUsers = await usersRepository.updateById({
                 id,
                 name,
@@ -67,21 +71,22 @@ class usersService {
                 status_code: 200,
                 message: "users updated successfully",
                 data: {
-                    updated_user: updatedUsers,
+                    updated_users: updatedUsers,
                 },
             };
-        }
-        catch (err) {
+        } else {
             return {
-                status: false,
-                status_code: 500,
-                message: err.message,
+                status: true,
+                status_code: 401,
+                message: "Resource Unauthorized",
                 data: {
-                    data: null,
+                    updated_users: null,
                 },
             };
         }
+
     }
+
 
     static async getProductBySellerId({ id, isPublish, sold }) {
         try {

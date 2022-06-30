@@ -43,7 +43,7 @@ class UsersRepository {
         return createdUser;
     }
 
-    static async updateById({ id, name, city, address, phoneNumber, picture }) {
+    static async updateById({id, name, city, address, phoneNumber, picture }) {
         const updateById = await users.update({
             name,
             city,
@@ -58,6 +58,7 @@ class UsersRepository {
 
         return updateById;
     }
+
 
     static async getProductBySellerId({ id, isPublish, sold }) {
         const query = {

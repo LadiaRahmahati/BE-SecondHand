@@ -26,15 +26,20 @@ const getById = async (req, res) => {
 
 const updateById = async (req, res, next) => {
     const { id } = req.params;
-    const { name, city, address, phoneNumber, } = req.body;
+    const {name, city, address, phoneNumber, } = req.body;
 
-    const { status, status_code, message, data } = await usersService.updateById({
+    const {
+        status,
+        status_code,
+        message,
+        data
+    } = await usersService.updateById({
         id,
         name,
         city,
         address,
         phoneNumber,
-        picture: req.uploaded_image,
+        picture: req.uploaded_picture && req.uploaded_picture.length && req.uploaded_picture[0],
     });
 
     res.status(status_code).send({
@@ -43,6 +48,7 @@ const updateById = async (req, res, next) => {
         data: data,
     });
 };
+
 
 const getProductBySellerId = async (req, res, next) => {
     const { id } = req.params;
