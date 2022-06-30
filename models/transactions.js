@@ -13,13 +13,18 @@ module.exports = (sequelize, DataTypes) => {
       transactions.belongsTo(models.products, {
         foreignKey: 'product_id'
       })
+      transactions.belongsTo(models.users, {
+        foreignKey: 'seller_id'
+      })
     }
   }
   transactions.init({
     user_id: DataTypes.INTEGER,
+    seller_id: DataTypes.INTEGER,
     product_id: DataTypes.INTEGER,
     bargain_price: DataTypes.INTEGER,
-    status: DataTypes.STRING
+    accepted: DataTypes.BOOLEAN,
+    rejected: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'transactions',

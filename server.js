@@ -45,9 +45,11 @@ app.put("/products/:id", middlewares.authenticate, upload.fields([{name: "pictur
 app.delete("/products/:id", middlewares.authenticate, productController.deleteProductById);
 app.get("/api/filter?", productController.filterProducts);
 
-//Wishlist
-app.get("/wishlist/user", middlewares.authenticate, transactionsController.getWishlistByUserId);
-app.post("/wishlist", middlewares.authenticate, transactionsController.create);
+// Transaction
+app.get("/transactions/user/:id", middlewares.authenticate, transactionsController.getTransactionByUserId);
+app.get("/transactions/seller/:id", middlewares.authenticate, transactionsController.getTransactionBySellerId);
+app.post("/transactions", middlewares.authenticate, transactionsController.create);
+app.put("/transactions/:id", middlewares.authenticate, transactionsController.updateById);
 
 
 // Public File Access

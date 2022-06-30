@@ -1,13 +1,17 @@
 const transactionsService = require("../services/transactionsService");
 
 const create = async (req, res, next) => {
-    const { product_id } = req.body;
+    const { seller_id, product_id, bargain_price, accepted, rejected } = req.body;
 
     const user_id = req.user.id;
 
     const { status, status_code, message, data } = await transactionsService.create({
         user_id,
-        product_id
+        seller_id,
+        product_id,
+        bargain_price,
+        accepted,
+        rejected
     });
     res.status(status_code).send({
         status: status,
@@ -16,14 +20,37 @@ const create = async (req, res, next) => {
     });
 };
 
-const getWishlistByUserId = async (req, res, next) => {
+const updateById = async (req, res, next) => {
     const { id } = req.params;
-    const { sold } = req.query;
+    const { seller_id, product_id, bargain_price, accepted, rejected } = req.body;
 
-    const { status, status_code, message, data } =
-        await transactionsService.getWishlistByUserId({
+    const user_id = req.user.id;
+
+    const { status, status_code, message, data } = await transactionsService.updateById({
+        id,
+        user_id,
+        seller_id,
+        product_id,
+        bargain_price,
+        accepted,
+        rejected
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+const getTransactionByUserId = async (req, res, next) => {
+    const { id } = req.params;
+    const { accepted, rejected } = req.query;
+
+    const { status, status_code, message, data } = await transactionsService.getTransactionByUserId({
             id,
-            sold
+            accepted,
+            rejected
         });
 
     res.status(status_code).send({
@@ -33,4 +60,21 @@ const getWishlistByUserId = async (req, res, next) => {
     });
 };
 
-module.exports = { create, getWishlistByUserId  };
+const getTransactionBySellerId = async (req, res, next) => {
+    const { id } = req.params;
+    const { accepted, rejected } = req.query;
+
+    const { status, status_code, message, data } = await transactionsService.getTransactionBySellerId({
+            id,
+            accepted,
+            rejected
+        });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+module.exports = { create, getTransactionByUserId, updateById, getTransactionBySellerId };

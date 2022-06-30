@@ -1,4 +1,5 @@
 const { products } = require("../models");
+const { Op } = require("sequelize");
 
 class ProductsRepository {
     static async create({ user_id, name, price, category, description, picture, isPublish, sold }) {
@@ -40,6 +41,7 @@ class ProductsRepository {
             category,
             description,
             picture,
+            sold,
             isPublish
         }, {
             where: {

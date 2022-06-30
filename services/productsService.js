@@ -47,7 +47,7 @@ class ProductsService {
                 };
             }
 
-            if (!picture.length) {
+            if (!picture) {
                 return {
                     status: false,
                     status_code: 400,
