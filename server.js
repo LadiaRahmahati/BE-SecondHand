@@ -7,7 +7,7 @@ const swaggerDocument = require("./swagger.json");
 const cors = require("cors");
 const path = require("path");
 const upload = require("./utils/fileUpload");
-const uploadSingle = require("./utils/fileUploadSingle");
+
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));

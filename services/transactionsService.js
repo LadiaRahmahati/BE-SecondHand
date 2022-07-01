@@ -25,28 +25,6 @@ class transactionsService {
                 };
             }
 
-            if (accepted == null) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "accepted harus diisi",
-                    data: {
-                        registered_user: null,
-                    },
-                };
-            }
-
-            if (rejected == null) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "rejected harus diisi",
-                    data: {
-                        registered_user: null,
-                    },
-                };
-            }
-
             const createdTransaction = await transactionsRepository.create({
                 user_id,
                 seller_id,
