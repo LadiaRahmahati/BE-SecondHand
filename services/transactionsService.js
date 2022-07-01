@@ -53,51 +53,6 @@ class transactionsService {
             };
         }
     }
-
-    static async updateById({ id, user_id, seller_id, product_id, bargain_price, accepted, rejected  }) {
-        try {
-            const getTransaction = await transactionsRepository.getTransactionById({ id });
-
-            if (getTransaction.user_id == user_id) {
-                const updatedTransaction = await transactionsRepository.updateTransactionById({
-                    id,
-                    user_id,
-                    seller_id,
-                    product_id,
-                    bargain_price,
-                    accepted,
-                    rejected
-                });
-
-                return {
-                    status: true,
-                    status_code: 200,
-                    message: "Transaction updated successfully",
-                    data: {
-                        updated_transaction: updatedTransaction,
-                    },
-                };
-            } else {
-                return {
-                    status: true,
-                    status_code: 401,
-                    message: "Resource Unauthorized",
-                    data: {
-                        updated_transaction: null,
-                    },
-                };
-            }
-        } catch (err) {
-            return {
-                status: false,
-                status_code: 500,
-                message: err.message,
-                data: {
-                    registered_user: null,
-                },
-            };
-        }
-    }
     
     static async getTransactionByUserId({ id, accepted, rejected }) {
         try {

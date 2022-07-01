@@ -20,22 +20,6 @@ class transactionsRepository {
         return getTransaction;
     }
 
-    static async updateTransactionById({ id, user_id, seller_id, product_id, bargain_price, accepted, rejected }) {
-        const updatedTransaction = await transactions.update(
-            {
-                user_id,
-                seller_id,
-                product_id,
-                bargain_price,
-                accepted,
-                rejected
-            },
-            { where: { id } }
-        );
-
-        return updatedTransaction;
-    }
-
     static async getTransactionByUserId({ id, accepted, rejected }) {
         const query = {
             where: {},
