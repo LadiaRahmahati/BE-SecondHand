@@ -33,14 +33,6 @@ class transactionsRepository {
             query.where = { ...query.where, user_id: id }
         }
 
-        if (accepted) {
-            query.where = { ...query.where, accepted }
-        }
-
-        if (rejected) {
-            query.where = { ...query.where, rejected }
-        }
-
         const getTransaction = await transactions.findAll(query);
 
         return getTransaction;
@@ -59,13 +51,6 @@ class transactionsRepository {
             query.where = { ...query.where, seller_id: id }
         }
 
-        if (accepted) {
-            query.where = { ...query.where, accepted }
-        }
-
-        if (rejected) {
-            query.where = { ...query.where, rejected }
-        }
 
         const getTransaction = await transactions.findAll(query);
 
