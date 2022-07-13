@@ -1,18 +1,47 @@
 const { transactions, products } = require("../models");
 
 class transactionsRepository {
-    static async create({ user_id, seller_id, product_id, bargain_price, accepted, rejected }) {
+    static async create({ user_id, seller_id, product_id, bargain_price, isRejected, isAccepted, isOpened }) {
         const createdTransaction = transactions.create({
             user_id,
             seller_id,
             product_id,
             bargain_price,
-            accepted,
-            rejected
+            isRejected,
+            isAccepted,
+            isOpened
         });
 
         return createdTransaction;
     }
+
+    static async updateTransaction({
+        id,
+        user_id,
+        seller_id,
+        product_id,
+        bargain_price,
+        isRejected,
+        isAccepted,
+        isOpened
+    }) {
+        const updateTransaction = await transactions.update({
+            user_id,
+            seller_id,
+            product_id,
+            bargain_price,
+            isRejected,
+            isAccepted,
+            isOpened
+        }, {
+            where: {
+                id
+            }
+        });
+
+        return updateTransaction;
+    }
+
 
     static async getTransactionById({ id }) {
         const getTransaction = await transactions.findOne({ where: { id } });
@@ -20,7 +49,7 @@ class transactionsRepository {
         return getTransaction;
     }
 
-    static async getTransactionByUserId({ id, accepted, rejected }) {
+    static async getTransactionByUserId({ id, isRejected, isAccepted, isOpened }) {
         const query = {
             where: {},
             include: [{
@@ -30,7 +59,22 @@ class transactionsRepository {
         }
 
         if (id) {
-            query.where = { ...query.where, user_id: id }
+            query.where = {
+                ...query.where,
+                user_id: id
+            }
+        }
+        if (isAccepted) {
+            query.where = {
+                ...query.where,
+                isAccepted
+            }
+        }
+        if (isRejected) {
+            query.where = {
+                ...query.where,
+                isRejected
+            }
         }
 
         const getTransaction = await transactions.findAll(query);
@@ -38,7 +82,7 @@ class transactionsRepository {
         return getTransaction;
     }
 
-    static async getTransactionBySellerId({ id, accepted, rejected }) {
+    static async getTransactionBySellerId({ id, isRejected, isAccepted, isOpened }) {
         const query = {
             where: {},
             include: [{
@@ -48,7 +92,22 @@ class transactionsRepository {
         }
 
         if (id) {
-            query.where = { ...query.where, seller_id: id }
+            query.where = {
+                ...query.where,
+                owner_id: id
+            }
+        }
+        if (isAccepted) {
+            query.where = {
+                ...query.where,
+                isAccepted
+            }
+        }
+        if (isRejected) {
+            query.where = {
+                ...query.where,
+                isRejected
+            }
         }
 
 

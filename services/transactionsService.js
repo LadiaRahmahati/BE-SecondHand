@@ -1,7 +1,7 @@
 const transactionsRepository = require("../repositories/transactionsRepository");
 
 class transactionsService {
-    static async create({ user_id, seller_id, product_id, bargain_price, accepted, rejected }) {
+    static async create({ user_id, seller_id, product_id, bargain_price, isRejected, isAccepted, isOpened }) {
         try {
             if (!seller_id) {
                 return {
@@ -13,7 +13,7 @@ class transactionsService {
                     },
                 };
             }
-            
+
             if (!product_id) {
                 return {
                     status: false,
@@ -25,13 +25,47 @@ class transactionsService {
                 };
             }
 
+            if (!isOpened) {
+                return {
+                    status: false,
+                    status_code: 400,
+                    message: "isOpened tidak ada value",
+                    data: {
+                        created_transaksi: null,
+                    },
+                };
+            }
+
+            if (!isRejected) {
+                return {
+                    status: false,
+                    status_code: 400,
+                    message: "isOpened tidak ada value",
+                    data: {
+                        created_transaksi: null,
+                    },
+                };
+            }
+
+            if (!isAccepted) {
+                return {
+                    status: false,
+                    status_code: 400,
+                    message: "isOpened tidak ada value",
+                    data: {
+                        created_transaksi: null,
+                    },
+                };
+            }
+
             const createdTransaction = await transactionsRepository.create({
                 user_id,
                 seller_id,
                 product_id,
                 bargain_price,
-                accepted,
-                rejected
+                isRejected,
+                isAccepted,
+                isOpened
             });
 
             return {
@@ -53,13 +87,60 @@ class transactionsService {
             };
         }
     }
-    
-    static async getTransactionByUserId({ id, accepted, rejected }) {
+
+    static async updateTransaction({
+        id,
+        user_id,
+        seller_id,
+        product_id,
+        bargain_price,
+        isRejected,
+        isAccepted,
+        isOpened
+    }) {
+        const getTransaction = await transactionsRepository.getTransactionById({
+            id
+        });
+
+        if (getTransaction.user_id == user_id) {
+            const updateTransaction = await transactionsRepository.updateTransaction({
+                id,
+                user_id,
+                seller_id,
+                product_id,
+                bargain_price,
+                isRejected,
+                isAccepted,
+                isOpened
+            });
+
+            return {
+                status: true,
+                status_code: 200,
+                message: "updated Product successfully",
+                data: {
+                    update: updateTransaction,
+                },
+            };
+        } else {
+            return {
+                status: true,
+                status_code: 401,
+                message: "Resource Unauthorized",
+                data: {
+                    update: null,
+                },
+            };
+        }
+    }
+
+    static async getTransactionByUserId({ id, isRejected, isAccepted, isOpened }) {
         try {
             const getTransaction = await transactionsRepository.getTransactionByUserId({
                 id,
-                accepted,
-                rejected
+                isRejected,
+                isAccepted,
+                isOpened
             });
 
             return {
@@ -82,12 +163,13 @@ class transactionsService {
         }
     }
 
-    static async getTransactionBySellerId({ id, accepted, rejected }) {
+    static async getTransactionBySellerId({ id, isRejected, isAccepted, isOpened }) {
         try {
             const getTransaction = await transactionsRepository.getTransactionBySellerId({
                 id,
-                accepted,
-                rejected
+                isRejected,
+                isAccepted,
+                isOpened
             });
 
             return {

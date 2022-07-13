@@ -51,9 +51,6 @@ app.get("/transactions/seller/:id", middlewares.authenticate, transactionsContro
 app.post("/transactions", middlewares.authenticate, transactionsController.create);
 
 
-// Public File Access
-app.use("public/files", express.static(path.join(__dirname, "/storages")));
-
 // API Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

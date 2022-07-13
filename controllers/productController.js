@@ -11,7 +11,7 @@ const create = async (req, res, next) => {
         price,
         category,
         description,
-        picture: req.uploaded_picture,
+        picture: req.files,
         isPublish,
         sold
     });
@@ -62,7 +62,7 @@ const updateProductById = async (req, res, next) => {
         category,
         description,
         picture: req.uploaded_picture,
-        isPublish,
+        isPublish
     });
 
     res.status(status_code).send({

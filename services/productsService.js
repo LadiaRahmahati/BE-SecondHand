@@ -1,4 +1,6 @@
 const productsRepository = require("../repositories/productsRepository");
+const cloudinary = require("../utils/cloudinary");
+
 
 class ProductsService {
     static async create({ user_id, name, price, category, description, picture, isPublish, sold }) {
@@ -13,6 +15,28 @@ class ProductsService {
                     },
                 };
             }
+
+            if (sold === null) {
+                return {
+                    status: false,
+                    code_status: 400,
+                    message: "sold wajib diisi",
+                    data: {
+                        data: null,
+                    }
+                }
+            };
+
+            if (isPublish === null) {
+                return {
+                    status: false,
+                    code_status: 400,
+                    message: "isPublish wajib diisi",
+                    data: {
+                        data: null,
+                    }
+                }
+            };
 
             if (!price) {
                 return {
@@ -56,7 +80,7 @@ class ProductsService {
                         data: null,
                     },
                 };
-            }else if (picture.length > 4) {
+            } else if (picture.length > 4) {
                 return {
                     status: false,
                     status_code: 400,
@@ -67,6 +91,15 @@ class ProductsService {
                 };
             }
 
+            const pictures = [];
+
+            await Promise.all(picture.picture.map(async (img) => {
+                const fileBase64 = img.buffer.toString("base64");
+                const file = `data:${img.mimetype};base64,${fileBase64}`;
+                const cloudinaryImage = await cloudinary.uploader.upload(file);
+                pictures.push(cloudinaryImage.url);
+            }))
+
 
             const createdProducts = await productsRepository.create({
                 user_id,
@@ -74,7 +107,7 @@ class ProductsService {
                 price,
                 category,
                 description,
-                picture,
+                picture: pictures,
                 isPublish,
                 sold
             });
@@ -154,79 +187,25 @@ class ProductsService {
                 id
             });
 
-            if (!name) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Nama produk wajib diisi",
-                    data: {
-                        data: null,
-                    },
-                };
-            }
-
-            if (!price) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Harga produk wajib diisi",
-                    data: {
-                        data: null,
-                    },
-                };
-            }
-
-            if (!category) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Kategori produk wajib diisi",
-                    data: {
-                        data: null,
-                    },
-                };
-            }
-
-            if (!description) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Deskripsi produk wajib diisi",
-                    data: {
-                        data: null,
-                    },
-                };
-            }
-
-            if (!picture) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Gambar produk wajib diisi",
-                    data: {
-                        data: null,
-                    },
-                };
-            }else if (picture.length > 4) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Maksimal Gambar Per Postingan adalah 4 Gambar",
-                    data: {
-                        registered_user: null,
-                    },
-                };
-            }
-
             if (getProduct.user_id == user_id) {
+                const pictures = [];
+
+                await Promise.all(picture.picture.map(async (img) => {
+                    const fileBase64 = img.buffer.toString("base64");
+                    const file = `data:${img.mimetype};base64,${fileBase64}`;
+                    const cloudinaryImage = await cloudinary.uploader.upload(file);
+                    pictures.push(cloudinaryImage.url);
+                }))
+
+
                 const updatedProduct = await productsRepository.updateProductById({
                     id,
                     name,
                     price,
                     category,
                     description,
-                    picture,
-                    isPublish
+                    picture: pictures,
+                    isPublish,
                 });
 
                 return {
@@ -305,8 +284,8 @@ class ProductsService {
         try {
             const getAllProduct = await productsRepository.getAllProduct({
                 name,
-                isPublish, 
-                sold, 
+                isPublish,
+                sold,
                 category
             });
 
@@ -324,7 +303,7 @@ class ProductsService {
                 code_status: 500,
                 message: err.message,
                 data: {
-                    data : null,
+                    data: null,
                 },
             };
         }

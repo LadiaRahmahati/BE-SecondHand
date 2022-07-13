@@ -28,10 +28,13 @@ module.exports = {
       bargain_price: {
         type: Sequelize.INTEGER
       },
-      accepted: {
+      isAccepted: {
         type: Sequelize.BOOLEAN
       },
-      rejected: {
+      isRejected: {
+        type: Sequelize.BOOLEAN
+      },
+      isOpened: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {

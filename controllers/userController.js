@@ -39,7 +39,7 @@ const updateById = async (req, res, next) => {
         city,
         address,
         phoneNumber,
-        picture: req.uploaded_picture && req.uploaded_picture.length && req.uploaded_picture[0],
+        picture: req.file,
     });
 
     res.status(status_code).send({

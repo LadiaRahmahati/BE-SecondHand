@@ -41,7 +41,6 @@ class ProductsRepository {
             category,
             description,
             picture,
-            sold,
             isPublish
         }, {
             where: {

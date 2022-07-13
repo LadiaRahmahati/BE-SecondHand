@@ -1,4 +1,5 @@
 const usersRepository = require("../repositories/usersRepository");
+const cloudinary = require("../utils/cloudinary");
 
 class usersService {
 
@@ -57,13 +58,17 @@ class usersService {
         })
 
         if (getUsersById.id == id) {
+            const fileBase64 = image.buffer.toString("base64");
+            const file = `data:${image.mimetype};base64,${fileBase64}`;
+            const cloudinaryImage = await cloudinary.uploader.upload(file);
+
             const updatedUsers = await usersRepository.updateById({
                 id,
                 name,
                 city,
                 address,
                 phoneNumber,
-                picture,
+                picture: cloudinaryImage.url,
             });
 
             return {

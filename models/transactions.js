@@ -23,8 +23,9 @@ module.exports = (sequelize, DataTypes) => {
     seller_id: DataTypes.INTEGER,
     product_id: DataTypes.INTEGER,
     bargain_price: DataTypes.INTEGER,
-    accepted: DataTypes.BOOLEAN,
-    rejected: DataTypes.BOOLEAN
+    isAccepted: DataTypes.BOOLEAN,
+    isRejected: DataTypes.BOOLEAN,
+    isOpened: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'transactions',
