@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const PORT = 2000;
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
@@ -52,9 +53,6 @@ app.post("/transactions", middlewares.authenticate, transactionsController.creat
 // API Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.listen(process.env.PORT || 2000, () => {
-    console.log(
-        `Server berhasil berjalan di port http://localhost:${process.env.PORT || 2000
-        }`
-    );
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server berhasil berjalan di port http://localhost:${PORT}`);
 });
