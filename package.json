@@ -20,9 +20,6 @@
     "sequelize-cli": "^6.4.1",
     "swagger-ui-express": "^4.4.0"
   },
-  "engines": {
-    "node": "16.13.1"
-  },
   "scripts": {
     "dev":"nodemon server.js"
   }
