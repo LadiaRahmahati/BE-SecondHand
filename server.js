@@ -40,8 +40,8 @@ app.post("/products/create", middlewares.authenticate, upload.fields([{ name: "p
     , productController.create);
 app.get("/products/:id", middlewares.authenticate, productController.getProductById);
 app.get("/users/:id/products?", userController.getProductBySellerId);
-app.put("/products/:id", middlewares.authenticate, upload.fields([{name: "picture"}])
-, productController.updateProductById);
+app.put("/products/:id", middlewares.authenticate, upload.fields([{ name: "picture" }])
+    , productController.updateProductById);
 app.delete("/products/:id", middlewares.authenticate, productController.deleteProductById);
 app.get("/api/filter?", productController.filterProducts);
 
@@ -54,6 +54,9 @@ app.post("/transactions", middlewares.authenticate, transactionsController.creat
 // API Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server berhasil berjalan di port http://localhost:${PORT}`);
+app.listen(process.env.PORT || 2000, () => {
+    console.log(
+        `Server berhasil berjalan di port http://localhost:${process.env.PORT || 2000
+        }`
+    );
 });
