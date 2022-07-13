@@ -53,6 +53,9 @@ app.post("/transactions", middlewares.authenticate, transactionsController.creat
 // API Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server berhasil berjalan di port http://localhost:${PORT}`);
+app.listen(process.env.PORT || 2000, () => {
+    console.log(
+        `Server berhasil berjalan di port http://localhost:${process.env.PORT || 2000
+        }`
+    );
 });
