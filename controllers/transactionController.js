@@ -89,4 +89,14 @@ const getTransactionBySellerId = async (req, res, next) => {
     });
 };
 
-module.exports = { create, updateTransaction, getTransactionByUserId, getTransactionBySellerId };
+const getAllTransaction = async (req, res) => {
+    const { status, status_code, message, data } = await transactionsService.getAllTransaction();
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+module.exports = { create, updateTransaction, getTransactionByUserId, getTransactionBySellerId, getAllTransaction };
