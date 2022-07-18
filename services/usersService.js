@@ -58,9 +58,16 @@ class usersService {
         })
 
         if (getUsersById.id == id) {
-            const fileBase64 = image.buffer.toString("base64");
-            const file = `data:${image.mimetype};base64,${fileBase64}`;
-            const cloudinaryImage = await cloudinary.uploader.upload(file);
+            let pictures = "";
+
+            if (picture) {
+                const fileBase64 = picture.buffer.toString("base64");
+                const file = `data:${picture.mimetype};base64,${fileBase64}`;
+                const cloudinaryImage = await cloudinary.uploader.upload(file);
+                pictures = cloudinaryImage.url;
+            }else {
+                pictures = getUsersById.image
+            }
 
             const updatedUsers = await usersRepository.updateById({
                 id,
@@ -68,7 +75,7 @@ class usersService {
                 city,
                 address,
                 phoneNumber,
-                picture: cloudinaryImage.url,
+                picture: pictures,
             });
 
             return {

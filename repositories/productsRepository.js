@@ -1,5 +1,6 @@
-const { products } = require("../models");
+const { products, users } = require("../models");
 const { Op } = require("sequelize");
+const usersRepository = require("./usersRepository")
 
 class ProductsRepository {
     static async create({ user_id, name, price, category, description, picture, isPublish, sold }) {
@@ -25,11 +26,18 @@ class ProductsRepository {
 
     static async getProductById({ id
     }) {
-        const getProduct = await products.findOne({
-            where: {
-                id
-            }
-        });
+        const query = {
+            where: {},
+            include: [{
+                model: users,
+                attributes: ["id", "name", "city", "picture"]
+            }]
+        }
+        if(id){
+            query.where = { ...query.where, id: id}
+        }
+
+        const getProduct = await products.findOne(query);
 
         return getProduct;
     }

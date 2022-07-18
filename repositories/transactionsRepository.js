@@ -115,6 +115,13 @@ class transactionsRepository {
 
         return getTransaction;
     }
+
+    static async getAllTransaction() {
+        const getAllTransaction = await transactions.findAll();
+
+        return getAllTransaction;
+    }
+
 }
 
 module.exports = transactionsRepository;

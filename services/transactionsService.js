@@ -36,27 +36,6 @@ class transactionsService {
                 };
             }
 
-            if (!isRejected) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "isOpened tidak ada value",
-                    data: {
-                        created_transaksi: null,
-                    },
-                };
-            }
-
-            if (!isAccepted) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "isOpened tidak ada value",
-                    data: {
-                        created_transaksi: null,
-                    },
-                };
-            }
 
             const createdTransaction = await transactionsRepository.create({
                 user_id,
@@ -187,6 +166,29 @@ class transactionsService {
                 message: err.message,
                 data: {
                     registered_user: null,
+                },
+            };
+        }
+    }
+    static async getAllTransaction() {
+        try {
+            const getAllTransaction = await transactionRepository.getAllTransaction();
+
+            return {
+                status: true,
+                status_code: 200,
+                message: "Product successfully loaded",
+                data: {
+                    getAllTransaction: getAllTransaction,
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                code_status: 500,
+                message: err.message,
+                data: {
+                    getAllTransaction: null,
                 },
             };
         }

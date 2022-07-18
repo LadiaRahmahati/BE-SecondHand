@@ -21,6 +21,6 @@
     "swagger-ui-express": "^4.4.0"
   },
   "scripts": {
-    "dev":"nodemon server.js"
+    "dev": "nodemon server.js"
   }
 }
