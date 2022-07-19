@@ -14,7 +14,7 @@ class usersService {
                     getdata: getAllUsers,
                 },
             };
-        }catch (err) {
+        } catch (err) {
             return {
                 status: false,
                 status_code: 500,
@@ -53,21 +53,21 @@ class usersService {
     }
 
     static async updateById({ id, name, city, address, phoneNumber, picture }) {
-        const getUsersById = await usersRepository.getById({
-            id
-        })
+        const getUsersById = await usersRepository.getById({ id })
 
         if (getUsersById.id == id) {
-            let pictures = "";
+
+            let pictures = [];
 
             if (picture) {
                 const fileBase64 = picture.buffer.toString("base64");
                 const file = `data:${picture.mimetype};base64,${fileBase64}`;
-                const cloudinaryImage = await cloudinary.uploader.upload(file);
-                pictures = cloudinaryImage.url;
-            }else {
-                pictures = getUsersById.image
+                const cloudinaryPicture = await cloudinary.uploader.upload(file);
+                pictures = cloudinaryPicture.url;
+            } else {
+                pictures = getUsersById.picture;
             }
+
 
             const updatedUsers = await usersRepository.updateById({
                 id,
@@ -75,8 +75,9 @@ class usersService {
                 city,
                 address,
                 phoneNumber,
-                picture: pictures,
+                picture: pictures
             });
+
 
             return {
                 status: true,
@@ -96,9 +97,7 @@ class usersService {
                 },
             };
         }
-
     }
-
 
     static async getProductBySellerId({ id, isPublish, sold }) {
         try {

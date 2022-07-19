@@ -50,7 +50,7 @@ const getProductById = async (req, res) => {
 
 const updateProductById = async (req, res, next) => {
     const { id } = req.params;
-    const { name, price, category, description, isPublish } = req.body;
+    const { name, price, category, description, isPublish, sold } = req.body;
 
     const user_id = req.user.id;
 
@@ -61,8 +61,9 @@ const updateProductById = async (req, res, next) => {
         price,
         category,
         description,
-        picture: req.uploaded_picture,
-        isPublish
+        picture: req.files,
+        isPublish,
+        sold
     });
 
     res.status(status_code).send({

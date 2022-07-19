@@ -181,24 +181,51 @@ class ProductsService {
             };
         }
     }
-    static async updateProductById({ id, user_id, name, price, category, description, picture, isPublish }) {
+    static async updateProductById({ id, user_id, name, price, category, description, picture, isPublish, sold }) {
         try {
             const getProduct = await productsRepository.getProductById({
                 id
             });
 
             if (getProduct.user_id == user_id) {
-                const pictures = [];
+                let pictures = [];
 
-                await Promise.all(picture.picture.map(async (img) => {
-                    const fileBase64 = img.buffer.toString("base64");
-                    const file = `data:${img.mimetype};base64,${fileBase64}`;
-                    const cloudinaryImage = await cloudinary.uploader.upload(file);
-                    pictures.push(cloudinaryImage.url);
-                }))
+                if (picture.picture){
+                    await Promise.all(picture.picture.map( async (pct) => {
+                        const fileBase64 = pct.buffer.toString("base64");
+                        const file = `data:${pct.mimetype};base64,${fileBase64}`;
+                        const cloudinaryPicture = await cloudinary.uploader.upload(file);
+                        pictures.push(cloudinaryPicture.url);
+                    }));
+                } else {
+                    pictures = getProduct.picture;
+                }
+                
+                if (!name){
+                    name = getProduct.name;
+                }
 
+                if (!price){
+                    price = getProduct.price;
+                }
 
-                const updatedProduct = await productsRepository.updateProductById({
+                if (!category){
+                    category = getProduct.category;
+                }
+
+                if (!description){
+                    description = getProduct.description;
+                }
+
+                if (!isPublish){
+                    isPublish = getProduct.isPublish;
+                }
+
+                if (!sold){
+                    sold = getProduct.sold;
+                }
+
+                const updatedProductById = await productsRepository.updateProductById({
                     id,
                     name,
                     price,
@@ -206,6 +233,7 @@ class ProductsService {
                     description,
                     picture: pictures,
                     isPublish,
+                    sold
                 });
 
                 return {
@@ -213,27 +241,27 @@ class ProductsService {
                     status_code: 200,
                     message: "Product updated successfully",
                     data: {
-                        updated_product: updatedProduct,
+                        updated_product: updatedProductById,
                     },
                 };
+
             } else {
                 return {
-                    status: true,
+                    status: false,
                     status_code: 401,
                     message: "Resource Unauthorized",
                     data: {
-                        updated_post: null,
+                        updated_product: null,
                     },
-                };
+                }
             }
-        }
-        catch (err) {
+        } catch (err) {
             return {
                 status: false,
                 status_code: 500,
                 message: err.message,
                 data: {
-                    data: null,
+                    updated_product: null,
                 },
             };
         }
