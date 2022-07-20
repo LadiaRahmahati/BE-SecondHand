@@ -30,10 +30,10 @@ module.exports = {
       picture: {
         type: Sequelize.ARRAY(Sequelize.STRING)
       },
-      isPublish: {
+      sold: {
         type: Sequelize.BOOLEAN
       },
-      sold: {
+      isPublish: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {

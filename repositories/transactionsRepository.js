@@ -1,8 +1,18 @@
 const { transactions, products } = require("../models");
+const { Op } = require("sequelize");
+
 
 class transactionsRepository {
-    static async create({ user_id, seller_id, product_id, bargain_price, isRejected, isAccepted, isOpened }) {
-        const createdTransaction = transactions.create({
+    static async createTransaction({
+        user_id,
+        seller_id,
+        product_id,
+        bargain_price,
+        isRejected,
+        isAccepted,
+        isOpened
+    }) {
+        const createdProduct = transactions.create({
             user_id,
             seller_id,
             product_id,
@@ -12,8 +22,9 @@ class transactionsRepository {
             isOpened
         });
 
-        return createdTransaction;
+        return createdProduct;
     }
+
 
     static async updateTransaction({
         id,
@@ -122,6 +133,46 @@ class transactionsRepository {
         return getAllTransaction;
     }
 
+    static async getTransactionNotif({
+        id,
+        isAccepted,
+        isRejected
+    }) {
+        const query = {
+            where: {},
+            include: [{
+                model: products,
+                attributes: ["name", "category", "price", "picture"]
+            },
+            {
+                model: users,
+                attributes: ["name", "email", "city", "address", "phoneNumber", "picture"]
+            }]
+        }
+
+        if (id) {
+            query.where = {
+                ...query.where,
+                [Op.or]: [ {seller_id: {[Op.eq]: id}}, {user_id: {[Op.eq]: id}} ]
+            }
+        }
+        if (isAccepted) {
+            query.where = {
+                ...query.where,
+                isAccepted
+            }
+        }
+        if (isRejected) {
+            query.where = {
+                ...query.where,
+                isRejected
+            }
+        }
+
+        const getTransactionByUserId = await transactions.findAll(query);
+
+        return getTransactionByUserId;
+    }
 }
 
 module.exports = transactionsRepository;

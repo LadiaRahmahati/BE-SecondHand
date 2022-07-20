@@ -12,15 +12,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       transactions.belongsTo(models.products, {
         foreignKey: 'product_id'
-      })
+      });
+
       transactions.belongsTo(models.users, {
         foreignKey: 'seller_id'
-      })
+      });
+
+      transactions.belongsTo(models.users, {
+        foreignKey: 'user_id'
+      });
     }
   }
   transactions.init({
-    user_id: DataTypes.INTEGER,
     seller_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER,
     product_id: DataTypes.INTEGER,
     bargain_price: DataTypes.INTEGER,
     isAccepted: DataTypes.BOOLEAN,

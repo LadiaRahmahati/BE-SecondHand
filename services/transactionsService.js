@@ -1,71 +1,68 @@
 const transactionsRepository = require("../repositories/transactionsRepository");
 
 class transactionsService {
-    static async create({ user_id, seller_id, product_id, bargain_price, isRejected, isAccepted, isOpened }) {
-        try {
-            if (!seller_id) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Seller id harus diisi",
-                    data: {
-                        registered_user: null,
-                    },
-                };
-            }
-
-            if (!product_id) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "product id harus diisi",
-                    data: {
-                        registered_user: null,
-                    },
-                };
-            }
-
-            if (!isOpened) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "isOpened tidak ada value",
-                    data: {
-                        created_transaksi: null,
-                    },
-                };
-            }
-
-
-            const createdTransaction = await transactionsRepository.create({
-                user_id,
-                seller_id,
-                product_id,
-                bargain_price,
-                isRejected,
-                isAccepted,
-                isOpened
-            });
-
-            return {
-                status: true,
-                status_code: 201,
-                message: "transaction created successfully",
-                data: {
-                    created_transaction: createdTransaction,
-                },
-            };
-        } catch (err) {
+    static async createTransaction({
+        user_id,
+        seller_id,
+        product_id,
+        bargain_price,
+        isRejected,
+        isAccepted,
+        isOpened
+    }) {
+        if (!bargain_price) {
             return {
                 status: false,
-                status_code: 500,
-                message: err.message,
+                status_code: 400,
+                message: "harga wajib diisi",
                 data: {
-                    registered_user: null,
+                    created_transaksi: null,
                 },
             };
         }
+
+        if (!product_id) {
+            return {
+                status: false,
+                status_code: 400,
+                message: "product id tidak ditemukan",
+                data: {
+                    created_transaksi: null,
+                },
+            };
+        }
+
+        if (!seller_id) {
+            return {
+                status: false,
+                status_code: 400,
+                message: "seller id tidak ditemukan",
+                data: {
+                    created_transaksi: null,
+                },
+            };
+        }
+
+        const createTransaction = await transactionsRepository.createTransaction({
+            user_id,
+            seller_id,
+            product_id,
+            bargain_price,
+            isRejected,
+            isAccepted,
+            isOpened
+        });
+
+        return {
+            status: true,
+            status_code: 201,
+            message: "created transaction successfully",
+            data: {
+                created_transaksi: createTransaction,
+            },
+        };
     }
+
 
     static async updateTransaction({
         id,
@@ -172,12 +169,12 @@ class transactionsService {
     }
     static async getAllTransaction() {
         try {
-            const getAllTransaction = await transactionRepository.getAllTransaction();
+            const getAllTransaction = await transactionsRepository.getAllTransaction();
 
             return {
                 status: true,
                 status_code: 200,
-                message: "Product successfully loaded",
+                message: "Transactions successfully loaded",
                 data: {
                     getAllTransaction: getAllTransaction,
                 },
@@ -193,7 +190,44 @@ class transactionsService {
             };
         }
     }
-
+    static async getTransactionNotif({
+        id,
+        isAccepted,
+        isRejected
+    }) {
+        const getTransactionNotif = await transactionsRepository.getTransactionNotif({
+            id,
+            isAccepted,
+            isRejected
+        });
+        return {
+            status: true,
+            status_code: 200,
+            message: "success get data",
+            data: {
+                getTransactionNotif: getTransactionNotif,
+            },
+        };
+    }
+    static async getTransactionById({
+        isAccepted,
+        isRejected,
+        id,
+    }) {
+        const getTransactionById = await transactionsRepository.getTransactionById({
+            isAccepted,
+            isRejected,
+            id,
+        });
+        return {
+            status: true,
+            status_code: 200,
+            message: "success get data",
+            data: {
+                getTransactionById: getTransactionById,
+            },
+        };
+    }
 }
 
 module.exports = transactionsService;

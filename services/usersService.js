@@ -55,9 +55,10 @@ class usersService {
     static async updateById({ id, name, city, address, phoneNumber, picture }) {
         const getUsersById = await usersRepository.getById({ id })
 
+
         if (getUsersById.id == id) {
 
-            let pictures = [];
+            let pictures = "";
 
             if (picture) {
                 const fileBase64 = picture.buffer.toString("base64");
@@ -69,7 +70,7 @@ class usersService {
             }
 
 
-            const updatedUsers = await usersRepository.updateById({
+            const updatedUser = await usersRepository.updateById({
                 id,
                 name,
                 city,
@@ -78,26 +79,25 @@ class usersService {
                 picture: pictures
             });
 
-
             return {
                 status: true,
                 status_code: 200,
-                message: "users updated successfully",
+                message: "User berhasil melengkapi info akun!",
                 data: {
-                    updated_users: updatedUsers,
+                    updated_user: updatedUser,
                 },
             };
         } else {
             return {
-                status: true,
+                status: false,
                 status_code: 401,
                 message: "Resource Unauthorized",
                 data: {
-                    updated_users: null,
+                    updated_user: null,
                 },
             };
         }
-    }
+    };
 
     static async getProductBySellerId({ id, isPublish, sold }) {
         try {

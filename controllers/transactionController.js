@@ -1,31 +1,15 @@
 const transactionsService = require("../services/transactionsService");
 
-const create = async (req, res, next) => {
-    const { seller_id, product_id, bargain_price, isRejected, isAccepted, isOpened } = req.body;
-
-    const user_id = req.user.id;
-
-    const { status, status_code, message, data } = await transactionsService.create({
-        user_id,
+const createTransaction = async (req, res) => {
+    const {
         seller_id,
         product_id,
         bargain_price,
         isRejected,
         isAccepted,
         isOpened
-    });
-    res.status(status_code).send({
-        status: status,
-        message: message,
-        data: data,
-    });
-};
-
-const updateTransaction = async (req, res) => {
-    const {
-        id
-    } = req.params;
-    const {seller_id, product_id, bargain_price, isRejected, isAccepted, isOpened } = req.body;
+    } = req.body;
+    console.log(req.body);
 
     const user_id = req.user.id;
 
@@ -35,8 +19,7 @@ const updateTransaction = async (req, res) => {
         message,
         data
     } =
-    await transactionsService.updateTransaction({
-        id,
+    await transactionsService.createTransaction({
         user_id,
         seller_id,
         product_id,
@@ -53,16 +36,49 @@ const updateTransaction = async (req, res) => {
     });
 }
 
+
+const updateTransaction = async (req, res) => {
+    const {
+        id
+    } = req.params;
+    const { seller_id, product_id, bargain_price, isRejected, isAccepted, isOpened } = req.body;
+
+    const user_id = req.user.id;
+
+    const {
+        status,
+        status_code,
+        message,
+        data
+    } =
+        await transactionsService.updateTransaction({
+            id,
+            user_id,
+            seller_id,
+            product_id,
+            bargain_price,
+            isRejected,
+            isAccepted,
+            isOpened
+        });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+}
+
 const getTransactionByUserId = async (req, res, next) => {
     const { id } = req.params;
     const { isRejected, isAccepted, isOpened } = req.query;
 
     const { status, status_code, message, data } = await transactionsService.getTransactionByUserId({
-            id,
-            isRejected,
-            isAccepted,
-            isOpened
-        });
+        id,
+        isRejected,
+        isAccepted,
+        isOpened
+    });
 
     res.status(status_code).send({
         status: status,
@@ -76,11 +92,11 @@ const getTransactionBySellerId = async (req, res, next) => {
     const { isRejected, isAccepted, isOpened } = req.query;
 
     const { status, status_code, message, data } = await transactionsService.getTransactionBySellerId({
-            id,
-            isRejected,
-            isAccepted,
-            isOpened
-        });
+        id,
+        isRejected,
+        isAccepted,
+        isOpened
+    });
 
     res.status(status_code).send({
         status: status,
@@ -99,4 +115,59 @@ const getAllTransaction = async (req, res) => {
     });
 };
 
-module.exports = { create, updateTransaction, getTransactionByUserId, getTransactionBySellerId, getAllTransaction };
+const getTransactionNotif = async (req, res) => {
+    const { id } = req.params;
+    const { isAccepted, isRejected } = req.query;
+
+    const {
+        status,
+        status_code,
+        message,
+        data
+    } = await transactionsService.getTransactionNotif({
+        id,
+        isAccepted,
+        isRejected
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+const getTransactionById = async (req, res) => {
+    const { id } = req.params;
+    const {
+        isAccepted,
+        isRejected
+    } = req.query;
+
+    const {
+        status,
+        status_code,
+        message,
+        data
+    } = await transactionsService.getTransactionById({
+        id,
+        isAccepted,
+        isRejected
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+module.exports = {
+    createTransaction,
+    updateTransaction,
+    getTransactionByUserId,
+    getTransactionBySellerId,
+    getAllTransaction,
+    getTransactionNotif,
+    getTransactionById,
+};

@@ -47,9 +47,11 @@ app.get("/api/filter?", productController.filterProducts);
 // Transaction
 app.get("/transactions/user/:id", middlewares.authenticate, transactionsController.getTransactionByUserId);
 app.get("/transactions/seller/:id", middlewares.authenticate, transactionsController.getTransactionBySellerId);
-app.post("/transactions", middlewares.authenticate, transactionsController.create);
+app.post("/transactions", middlewares.authenticate, transactionsController.createTransaction);
 app.put("/transactions/:id", middlewares.authenticate, transactionsController.updateTransaction);
 app.get("/transactions", middlewares.authenticate, transactionsController.getAllTransaction);
+app.get("/transactions/notif/:id", middlewares.authenticate, transactionsController.getTransactionNotif);
+app.get("/transactions/:id", middlewares.authenticate, transactionsController.getTransactionById);
 
 
 // API Documentation

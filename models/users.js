@@ -17,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    picture: DataTypes.STRING,
     city: DataTypes.STRING,
-    address: DataTypes.TEXT,
-    phoneNumber: DataTypes.STRING
+    address: DataTypes.STRING,
+    phoneNumber: DataTypes.STRING,
+    picture: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'users',

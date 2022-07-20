@@ -17,16 +17,16 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      picture: {
-        type: Sequelize.STRING
-      },
       city: {
         type: Sequelize.STRING
       },
       address: {
-        type: Sequelize.TEXT
+        type: Sequelize.STRING
       },
       phoneNumber: {
+        type: Sequelize.STRING
+      },
+      picture: {
         type: Sequelize.STRING
       },
       createdAt: {

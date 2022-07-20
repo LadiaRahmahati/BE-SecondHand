@@ -17,9 +17,7 @@ class UsersRepository {
         return getUser;
     }
 
-    static async getById({
-        id
-    }) {
+    static async getById({ id }) {
         const getUser = await users.findOne({
             where: {
                 id
