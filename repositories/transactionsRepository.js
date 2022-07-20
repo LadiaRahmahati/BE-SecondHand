@@ -1,4 +1,4 @@
-const { transactions, products } = require("../models");
+const { transactions, products, users } = require("../models");
 const { Op } = require("sequelize");
 
 
@@ -105,7 +105,7 @@ class transactionsRepository {
         if (id) {
             query.where = {
                 ...query.where,
-                owner_id: id
+                seller_id: id
             }
         }
         if (isAccepted) {
