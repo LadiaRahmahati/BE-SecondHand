@@ -34,7 +34,8 @@ class transactionsRepository {
         bargain_price,
         isRejected,
         isAccepted,
-        isOpened
+        isOpened,
+        sold
     }) {
         const updateTransaction = await transactions.update({
             user_id,
@@ -43,7 +44,8 @@ class transactionsRepository {
             bargain_price,
             isRejected,
             isAccepted,
-            isOpened
+            isOpened,
+            sold
         }, {
             where: {
                 id
@@ -60,12 +62,12 @@ class transactionsRepository {
         return getTransaction;
     }
 
-    static async getTransactionByUserId({ id, isRejected, isAccepted, isOpened }) {
+    static async getTransactionByUserId({ id, isRejected, isAccepted, }) {
         const query = {
             where: {},
             include: [{
                 model: products,
-                attributes: ["picture", "name", "category", "price"]
+                attributes: ["picture", "name", "category", "price", "sold"]
             }]
         }
 

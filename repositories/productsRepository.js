@@ -42,14 +42,15 @@ class ProductsRepository {
         return getProduct;
     }
 
-    static async updateProductById({ id, name, price, category, description, picture, isPublish }) {
+    static async updateProductById({ id, name, price, category, description, picture, isPublish, sold }) {
         const updateProductById = await products.update({
             name,
             price,
             category,
             description,
             picture,
-            isPublish
+            isPublish,
+            sold
         }, {
             where: {
                 id

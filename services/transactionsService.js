@@ -1,4 +1,5 @@
 const transactionsRepository = require("../repositories/transactionsRepository");
+const productsRepository = require("../repositories/productsRepository");
 
 class transactionsService {
     static async createTransaction({
@@ -8,7 +9,8 @@ class transactionsService {
         bargain_price,
         isRejected,
         isAccepted,
-        isOpened
+        isOpened,
+        sold
     }) {
         if (!bargain_price) {
             return {
@@ -50,7 +52,8 @@ class transactionsService {
             bargain_price,
             isRejected,
             isAccepted,
-            isOpened
+            isOpened,
+            sold
         });
 
         return {
@@ -72,13 +75,14 @@ class transactionsService {
         bargain_price,
         isRejected,
         isAccepted,
-        isOpened
+        isOpened,
+        sold
     }) {
         const getTransaction = await transactionsRepository.getTransactionById({
             id
         });
 
-        if (getTransaction.user_id == user_id) {
+        if (getTransaction.seller_id == user_id) {
             const updateTransaction = await transactionsRepository.updateTransaction({
                 id,
                 user_id,
@@ -87,8 +91,13 @@ class transactionsService {
                 bargain_price,
                 isRejected,
                 isAccepted,
-                isOpened
+                isOpened,
             });
+
+            const updateProduct = await productsRepository.updateProductById({
+                id: getTransaction.product_id,
+                sold
+            })
 
             return {
                 status: true,
@@ -96,6 +105,7 @@ class transactionsService {
                 message: "updated Product successfully",
                 data: {
                     update: updateTransaction,
+                    update: updateProduct,
                 },
             };
         } else {

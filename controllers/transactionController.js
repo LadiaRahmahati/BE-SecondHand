@@ -41,7 +41,7 @@ const updateTransaction = async (req, res) => {
     const {
         id
     } = req.params;
-    const { seller_id, product_id, bargain_price, isRejected, isAccepted, isOpened } = req.body;
+    const { seller_id, product_id, bargain_price, isRejected, isAccepted, isOpened, sold } = req.body;
 
     const user_id = req.user.id;
 
@@ -59,7 +59,8 @@ const updateTransaction = async (req, res) => {
             bargain_price,
             isRejected,
             isAccepted,
-            isOpened
+            isOpened,
+            sold
         });
 
     res.status(status_code).send({
