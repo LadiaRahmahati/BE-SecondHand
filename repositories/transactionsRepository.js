@@ -65,7 +65,7 @@ class transactionsRepository {
             where: {},
             include: [{
                 model: products,
-                attributes: ["name", "category", "price", "picture", "sold"]
+                attributes: ["name",  "price", "category", "picture", "description", "sold"]
             },
             {
                 model: users,
@@ -92,9 +92,9 @@ class transactionsRepository {
             }
         }
 
-        const getTransactionByUserId = await transactions.findOne(query);
+        const getTransactionById = await transactions.findOne(query);
 
-        return getTransactionByUserId;
+        return getTransactionById;
     }
 
     static async getTransactionByUserId({ id, isRejected, isAccepted, }) {
