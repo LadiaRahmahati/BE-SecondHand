@@ -56,10 +56,45 @@ class transactionsRepository {
     }
 
 
-    static async getTransactionById({ id }) {
-        const getTransaction = await transactions.findOne({ where: { id } });
+    static async getTransactionById({
+        id,
+        isAccepted,
+        isRejected
+    }) {
+        const query = {
+            where: {},
+            include: [{
+                model: products,
+                attributes: ["name", "category", "price", "picture", "sold"]
+            },
+            {
+                model: users,
+                attributes: ["name", "email", "city", "address", "phoneNumber", "picture"]
+            }]
+        }
 
-        return getTransaction;
+        if (id) {
+            query.where = {
+                ...query.where,
+                id: id
+            }
+        }
+        if (isAccepted) {
+            query.where = {
+                ...query.where,
+                isAccepted
+            }
+        }
+        if (isRejected) {
+            query.where = {
+                ...query.where,
+                isRejected
+            }
+        }
+
+        const getTransactionByUserId = await transactions.findOne(query);
+
+        return getTransactionByUserId;
     }
 
     static async getTransactionByUserId({ id, isRejected, isAccepted, }) {
