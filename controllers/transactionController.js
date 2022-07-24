@@ -9,7 +9,6 @@ const createTransaction = async (req, res) => {
         isAccepted,
         isOpened
     } = req.body;
-    console.log(req.body);
 
     const user_id = req.user.id;
 
